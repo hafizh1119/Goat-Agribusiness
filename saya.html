@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cheer Up!</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background: linear-gradient(135deg, #f6d365, #fda085);
+            color: #333;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        h1 {
+            font-size: 24px;
+        }
+        p {
+            margin: 10px 20px;
+            font-size: 16px;
+        }
+        .gif-container {
+            display: none; /* Menyembunyikan foto awalnya */
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+        img {
+            width: 300px; /* Ukuran foto lebih besar */
+            height: 300px; /* Menjaga rasio gambar tetap */
+            border-radius: 10px;
+            margin: 10px;
+        }
+        .moving-button {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            padding: 10px 20px;
+            font-size: 18px;
+            font-weight: bold;
+            color: white;
+            background-color: #ff6f61;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transform: translate(-50%, -50%);
+        }
+        .moving-button:hover {
+            background-color: #ff856d;
+        }
+
+        /* Notifikasi waktu habis */
+        .time-up-notification {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #ff6f61;
+            color: white;
+            padding: 20px 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        /* Tombol untuk menampilkan foto */
+        .show-images-button {
+            display: none;
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 18px;
+            background-color: #ff6f61;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            cursor: pointer;
+        }
+
+        .show-images-button:hover {
+            background-color: #ff856d;
+        }
+
+        /* Rating sistem */
+        .rating-container {
+            display: none;
+            margin-top: 20px;
+        }
+        .star {
+            font-size: 30px;
+            color: #ff6f61;
+            cursor: pointer;
+        }
+        .star:hover {
+            color: #ff856d;
+        }
+        .thank-you-notification {
+            display: none;
+            background-color: #ff6f61;
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            font-size: 20px;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+
+        /* Media Query for Mobile */
+        @media screen and (max-width: 768px) {
+            h1 {
+                font-size: 20px;
+            }
+            p {
+                font-size: 14px;
+            }
+            img {
+                width: 200px; /* Ukuran foto lebih kecil di mobile */
+                height: 200px;
+            }
+            .moving-button {
+                font-size: 14px;
+                padding: 8px 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1 id="title">HALLO 🙌 <br>SELAMAT DATANG, NUR AINI ARUM YULI! 😄</h1>
+    <p id="instructions">Aku punya games tangkap aku 😝<br>Coba ya 🤣</p>
+    
+    <div class="gif-container" id="imagesContainer">
+        <!-- Foto yang disembunyikan awalnya -->
+        <img src="https://media.giphy.com/media/3o7abKhOpu0NwenH3O/giphy.gif" alt="funny gif">
+        <img src="1.jpg" alt="funny gif">
+        <img src="2.jpg" alt="funny gif">
+        <img src="3.jpg" alt="funny gif">
+        <img src="4.jpg" alt="funny gif">
+        <img src="5.jpg" alt="funny gif">
+        <img src="6.jpg" alt="funny gif">
+        <img src="7.jpg" alt="funny gif">
+        <img src="https://media.giphy.com/media/3o7abKhOpu0NwenH3O/giphy.gif" alt="funny gif">
+    </div>
+    
+    <button class="moving-button" id="trickyButton">Tangkap Aku</button>
+
+    <!-- Notifikasi waktu habis -->
+    <div class="time-up-notification" id="timeUpNotification">
+        Waktu habis! Coba lagi lain kali ya! 😊
+    </div>
+
+    <!-- Tombol untuk menampilkan foto -->
+    <button class="show-images-button" id="showImagesButton">Tekan Aku</button>
+
+    <!-- Rating Muka -->
+    <div class="rating-container" id="ratingContainer">
+        <p>Bagaimana menurutmu wajahnya? 😜</p>
+        <span class="star" id="star1">&#9733;</span>
+        <span class="star" id="star2">&#9733;</span>
+        <span class="star" id="star3">&#9733;</span>
+        <span class="star" id="star4">&#9733;</span>
+        <span class="star" id="star5">&#9733;</span>
+    </div>
+
+    <!-- Notifikasi Terima Kasih -->
+    <div class="thank-you-notification" id="thankYouNotification">
+        Terima kasih, semoga bisa mengurangi bete kamu yah, babye! 😊
+    </div>
+
+    <script>
+        const button = document.getElementById('trickyButton');
+        const timeUpNotification = document.getElementById('timeUpNotification');
+        const showImagesButton = document.getElementById('showImagesButton');
+        const imagesContainer = document.getElementById('imagesContainer');
+        const ratingContainer = document.getElementById('ratingContainer');
+        const stars = document.querySelectorAll('.star');
+        const thankYouNotification = document.getElementById('thankYouNotification');
+        const title = document.getElementById('title');
+        const instructions = document.getElementById('instructions');
+        let maxWidth = window.innerWidth - 100;
+        let maxHeight = window.innerHeight - 50;
+        let timer = 30; // Timer dalam detik
+        let timerInterval;
+
+        // Tombol bergerak ketika didekati
+        button.addEventListener('mouseover', () => {
+            const randomX = Math.floor(Math.random() * maxWidth);
+            const randomY = Math.floor(Math.random() * maxHeight);
+            button.style.left = `${randomX}px`;
+            button.style.top = `${randomY}px`;
+        });
+
+        // Klik berhasil
+        button.addEventListener('click', () => {
+            clearInterval(timerInterval); // Hentikan timer
+            alert("Akhirnya berhasil! Mood kamu pasti sudah lebih baik, kan? 😊");
+            button.style.display = 'none';
+        });
+
+        // Timer dimulai
+        function startTimer() {
+            timerInterval = setInterval(() => {
+                timer--;
+                if (timer <= 0) {
+                    clearInterval(timerInterval);
+                    timeUpNotification.style.display = 'block'; // Menampilkan notifikasi
+                    setTimeout(() => {
+                        timeUpNotification.style.display = 'none'; // Sembunyikan setelah beberapa detik
+                        showImagesButton.style.display = 'block'; // Menampilkan tombol untuk melihat foto
+                    }, 3000); // Menyembunyikan notifikasi setelah 3 detik
+                    button.style.display = 'none';
+                }
+            }, 1000);
+        }
+
+        // Menampilkan foto saat tombol diklik
+        showImagesButton.addEventListener('click', () => {
+            // Menyembunyikan tulisan dan instruksi
+            title.style.display = 'none';
+            instructions.style.display = 'none';
+            
+            imagesContainer.style.display = 'flex'; // Menampilkan foto-foto
+            showImagesButton.style.display = 'none'; // Menyembunyikan tombol
+            ratingContainer.style.display = 'block'; // Menampilkan rating
+        });
+
+        // Menangani rating
+        stars.forEach((star, index) => {
+            star.addEventListener('click', () => {
+                for (let i = 0; i <= index; i++) {
+                    stars[i].style.color = "#ff856d"; // Mengubah warna bintang yang dipilih
+                }
+                for (let i = index + 1; i < stars.length; i++) {
+                    stars[i].style.color = "#ff6f61"; // Mengembalikan warna bintang yang tidak dipilih
+                }
+                setTimeout(() => {
+                    ratingContainer.style.display = 'none'; // Menyembunyikan rating
+                    thankYouNotification.style.display = 'block'; // Menampilkan terima kasih
+                    setTimeout(() => {
+                        thankYouNotification.style.display = 'none'; // Menyembunyikan terima kasih setelah beberapa detik
+                    }, 3000); // Menyembunyikan setelah 3 detik
+                }, 500); // Memberi jeda sejenak sebelum menampilkan notifikasi terima kasih
+            });
+        });
+
+        // Memulai timer setelah halaman dimuat
+        window.onload = startTimer;
+
+        // Perbarui posisi maksimum ketika layar diubah ukurannya
+        window.addEventListener('resize', () => {
+            maxWidth = window.innerWidth - 100;
+            maxHeight = window.innerHeight - 50;
+        });
+    </script>
+</body>
+</html>
