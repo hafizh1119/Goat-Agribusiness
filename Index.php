@@ -234,42 +234,47 @@ include "koneksi.php";
     <section id="gallery" class="text-center p-5" style="background-color: #FCDC94;">
       <div class="container">
         <h1 class="fw-bold display-4 pb-3">gallery</h1>
-        <div id="carouselExample" class="carousel slide">
-          <div class="carousel-inner">
-            <div class="carousel-item active">
-              <img src="https://www.agroindustri.id/wp-content/uploads/2022/05/kambing-boer.jpeg" class="d-block w-100" alt="..." />
-            </div>
-            <div class="carousel-item">
-              <img src="https://live.staticflickr.com/6236/6304148506_9baf359c39_b.jpg" class="d-block w-100" alt="..." />
-            </div>
-            <div class="carousel-item">
-              <img src="https://www.posbagus.com/wp-content/uploads/2018/12/000082-03-gambar-dp-lucu-banget-bikin-ngakak_kambing-menjulurkan-lidah_800x450_ccpdm-min.jpg" class="d-block w-100" alt="..." />
-            </div>
-            <div class="carousel-item">
-              <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiD9TjJEgVQo51Ncc1pzNuiLqGjimAFyjQ5A7KV0f1wieaV8sMMifdc4g4aTA3nksy4W4jZ2dOhYWY6ynpvTAkoErfY2ctHywJyc6PSctmboCPmfN7T_PRV2a5H5691hyphenhyphenKcSAE3qC3vo30/s1600/bm-image-722766.jpeg" class="d-block w-100" alt="..." />
-            </div>
-          </div>
-          <button
-            class="carousel-control-prev"
-            type="button"
-            data-bs-target="#carouselExample"
-            data-bs-slide="prev"
-          >
+        <div id="carouselExample" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner">
+            <?php
+            $sql1 = "SELECT gambar, nama FROM gallery";
+            $result = $conn->query($sql1);
+            $isActive = 'active'; // Menandakan item pertama yang aktif
+            if ($result->num_rows > 0) {
+                // Loop melalui hasil query dan tampilkan gambar-gambar
+                while($row = $result->fetch_assoc()) {
+                    $gambar = $row['gambar'];
+                    $nama = $row['nama'];
+            ?>
+                    <div class="carousel-item <?php echo $isActive; ?>">
+                        <div class="d-flex justify-content-center position-relative">
+                            <!-- Gambar -->
+                            <img src="<?php echo './img/' . $gambar; ?>" class="d-block" style="max-width: 90%; height: auto;" alt="Gambar">
+                            <!-- Nama Gambar yang tampil saat hover -->
+                            <div class="image-overlay text-center">
+                            </div>
+                        </div>
+                    </div>
+            <?php
+                    $isActive = ''; // Menghilangkan class active pada item selanjutnya
+                }
+            } else {
+                echo "<p>Tidak ada gambar dalam gallery.</p>";
+            }
+            ?>
+        </div>
+        
+        <!-- Kontrol Carousel -->
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
             <span class="visually-hidden">Previous</span>
-          </button>
-          <button
-            class="carousel-control-next"
-            type="button"
-            data-bs-target="#carouselExample"
-            data-bs-slide="next"
-          >
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
             <span class="carousel-control-next-icon" aria-hidden="true"></span>
             <span class="visually-hidden">Next</span>
-          </button>
-        </div>
-      </div>
-    </section>
+        </button>
+    </div>
+</section>
     <!-- gallery end -->
     <!-- schedule begin -->
     <section id="schedule" class="text-center p-5" style="background-color: #C8CFA0;">
@@ -379,7 +384,7 @@ include "koneksi.php";
     <!-- footer begin -->
     <footer id="footer" class="text-center p-5" style="background-color: #EF9C66;">
       <div>
-        <a href="https://www.instagram.com/hafizhnaufal_"
+        <a href="https://www.instagram.com/hafizhnaufal__"
           ><i class="bi bi-instagram h2 p-2 social-icon"></i
         ></a>
         <a href="https://twitter.com/udinusofficial"
